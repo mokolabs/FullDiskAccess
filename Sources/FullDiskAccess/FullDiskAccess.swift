@@ -77,7 +77,7 @@ public enum FullDiskAccess {
         skipButtonTitle: String = "Later",
         canBeSuppressed: Bool = false,
         icon: NSImage? = nil,
-        canBeSandboxed = false
+        canBeSandboxed: Bool = false
     ) {
         guard !canBeSuppressed || !promptSuppressed else {
             // Prompt has been suppressed by the user because they checked "Do not ask again."
