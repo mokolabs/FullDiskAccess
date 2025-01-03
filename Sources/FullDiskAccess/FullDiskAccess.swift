@@ -76,7 +76,8 @@ public enum FullDiskAccess {
         settingsButtonTitle: String = "Open Settings",
         skipButtonTitle: String = "Later",
         canBeSuppressed: Bool = false,
-        icon: NSImage? = nil
+        icon: NSImage? = nil,
+        canBeSandboxed = false
     ) {
         guard !canBeSuppressed || !promptSuppressed else {
             // Prompt has been suppressed by the user because they checked "Do not ask again."
@@ -84,13 +85,13 @@ public enum FullDiskAccess {
             return
         }
 
-        guard !appIsSandboxed else {
+        guard !appIsSandboxed || canBeSandboxed else {
             // Sandboxed app cannot gain FDA
             os_log(.error, log: .fullDiskAccess, "Prompt has not appeared because the app is sandboxed")
             return
         }
 
-        guard !isGranted else {
+        guard !isGranted || canBeSandboxed else {
             // Granted app doesn't need it
             os_log(.debug, log: .fullDiskAccess, "Prompt has not appeared because Full Disk Access is already granted")
             return
